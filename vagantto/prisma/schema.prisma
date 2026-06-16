@@ -1,0 +1,84 @@
+// Vagantto data model — bento ordering @ Nishi-Kani Station
+// M1 focus: Bento + DailyAvailability (menu & inventory). Order/OrderItem are
+// included so the schema is complete; the ordering UI lands in M3.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// A bento product on the menu (catalog entry, not tied to a specific day).
+model Bento {
+  id          String   @id @default(cuid())
+  nameJa      String
+  nameEn      String
+  description String?
+  priceYen    Int
+  imageUrl    String?
+  category    String   @default("bento")
+  allergens   String[] @default([])
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  availabilities DailyAvailability[]
+  orderItems     OrderItem[]
+}
+
+/// How much of a bento is available on a given day. This is where inventory lives.
+model DailyAvailability {
+  id             String    @id @default(cuid())
+  date           DateTime  @db.Date
+  bentoId        String
+  bento          Bento     @relation(fields: [bentoId], references: [id], onDelete: Cascade)
+  stockTotal     Int
+  stockRemaining Int
+  orderCutoff    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@unique([date, bentoId])
+  @@index([date])
+}
+
+/// A customer order. Status walks: PENDING -> CONFIRMED -> PREPARING -> READY -> PICKED_UP.
+model Order {
+  id            String      @id @default(cuid())
+  code          String      @unique // short human-readable pickup code, e.g. "K7F2"
+  status        OrderStatus @default(PENDING)
+  pickupWindow  String // e.g. "07:30-07:45"
+  customerName  String?
+  customerPhone String?
+  totalYen      Int
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  items OrderItem[]
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+/// A line item within an order. Price is snapshotted at order time.
+model OrderItem {
+  id               String @id @default(cuid())
+  orderId          String
+  order            Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  bentoId          String
+  bento            Bento  @relation(fields: [bentoId], references: [id])
+  qty              Int
+  priceYenSnapshot Int
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PREPARING
+  READY
+  PICKED_UP
+  CANCELLED
+}

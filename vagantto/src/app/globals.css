@@ -1,0 +1,216 @@
+:root {
+  --bg: #faf7f2;
+  --card: #ffffff;
+  --ink: #1f2933;
+  --muted: #6b7280;
+  --accent: #c0392b;
+  --accent-ink: #ffffff;
+  --ok: #2e7d32;
+  --warn: #b26a00;
+  --line: #e7e2d8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Noto Sans JP",
+    sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1.25rem;
+  background: var(--accent);
+  color: var(--accent-ink);
+  flex-wrap: wrap;
+}
+
+.brand {
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--accent-ink);
+  text-decoration: none;
+}
+
+.site-header .station {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+.site-header nav {
+  margin-left: auto;
+}
+
+.site-header nav a {
+  color: var(--accent-ink);
+  text-decoration: none;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+}
+
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1.25rem;
+}
+
+h1 {
+  font-size: 1.4rem;
+  margin: 0.25rem 0 1rem;
+}
+
+.menu-grid {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.bento-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.bento-card.sold-out {
+  opacity: 0.55;
+}
+
+.bento-name {
+  font-weight: 700;
+}
+
+.bento-name .en {
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 0.85rem;
+  margin-left: 0.4rem;
+}
+
+.bento-desc {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0.35rem 0;
+}
+
+.allergens {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.price {
+  font-weight: 800;
+  font-size: 1.1rem;
+  white-space: nowrap;
+}
+
+.stock-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  margin-top: 0.5rem;
+}
+
+.stock-ok {
+  background: #e6f4ea;
+  color: var(--ok);
+}
+
+.stock-low {
+  background: #fff3e0;
+  color: var(--warn);
+}
+
+.stock-out {
+  background: #fdecea;
+  color: var(--accent);
+}
+
+/* Staff dashboard */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.92rem;
+}
+
+th {
+  background: #f3efe7;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
+
+form.inline {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+input,
+button {
+  font: inherit;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+
+button {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button.secondary {
+  background: #eee;
+  color: var(--ink);
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.2rem;
+}
