@@ -1,0 +1,32 @@
+# One-command local run:  docker compose up  →  http://localhost:3000
+# (staff dashboard at /staff)
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: vagantto
+      POSTGRES_PASSWORD: vagantto
+      POSTGRES_DB: vagantto
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vagantto -d vagantto"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    ports:
+      - "5432:5432"
+    volumes:
+      - vagantto-db:/var/lib/postgresql/data
+
+  app:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://vagantto:vagantto@db:5432/vagantto?schema=public
+      NODE_ENV: production
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+
+volumes:
+  vagantto-db:

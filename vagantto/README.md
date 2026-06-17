@@ -30,6 +30,18 @@ The full ordering flow, pickup-window picker, and staff order queue land in M2�
 
 ## Getting started
 
+### Option A — Docker (one command, no local Postgres needed)
+
+```bash
+cd vagantto
+docker compose up            # builds the app + starts Postgres, seeds today's menu
+```
+
+Then open **http://localhost:3000** (staff dashboard at **/staff**). Stop with
+`Ctrl+C`; `docker compose down -v` removes the database volume.
+
+### Option B — Local Node + your own Postgres
+
 ```bash
 cd vagantto
 cp .env.example .env          # then set DATABASE_URL to your Postgres
@@ -38,6 +50,13 @@ npm run db:push               # create tables
 npm run db:seed               # load sample bentos + today's menu
 npm run dev                   # http://localhost:3000  (staff: /staff)
 ```
+
+### Try the flow
+
+1. On the menu, tap **+** on a couple of bentos → **Checkout**.
+2. Pick a pickup window, optionally add a name → **Place order**.
+3. You'll land on a confirmation page with a **pickup code** — stock drops on the
+   menu and the staff dashboard immediately.
 
 ## Roadmap
 
